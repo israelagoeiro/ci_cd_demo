@@ -17,6 +17,8 @@ type Tarefa struct {
 	Concluida bool   `json:"concluida"`
 }
 
+// Função principal da aplicação
+// Teste de CI/CD - Verificando se o fluxo está funcionando corretamente
 func main() {
 	// Configurar o mecanismo de templates Mustache
 	engine := mustache.New("./views", ".mustache")

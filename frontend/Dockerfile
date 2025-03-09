@@ -4,17 +4,18 @@ FROM golang:1.21-alpine AS builder
 WORKDIR /app
 
 # Copiar arquivos de dependência
-COPY go.mod ./
-# Baixar dependências
-RUN go mod download
+COPY go.mod go.sum ./
+
+# Copiar o diretório vendor
+COPY vendor/ ./vendor/
 
 # Copiar o código fonte
 COPY *.go ./
 COPY views/ ./views/
 COPY public/ ./public/
 
-# Compilar a aplicação
-RUN CGO_ENABLED=0 GOOS=linux go build -o frontend-server .
+# Compilar a aplicação usando o vendor
+RUN CGO_ENABLED=0 GOOS=linux go build -mod=vendor -o frontend-server .
 
 # Estágio de execução
 FROM alpine:latest

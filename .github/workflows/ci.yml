@@ -20,11 +20,13 @@ jobs:
       with:
         go-version: '1.21'
         cache: true
+        cache-dependency-path: api/go.sum
     
     - name: Install dependencies for API
       run: |
         cd api
         go mod download
+        go mod tidy
     
     - name: Run tests for API
       run: |
@@ -42,16 +44,19 @@ jobs:
       with:
         go-version: '1.21'
         cache: true
+        cache-dependency-path: frontend/go.sum
     
     - name: Install dependencies for Frontend
       run: |
         cd frontend
         go mod download
+        go mod tidy
+        go mod vendor
     
     - name: Run tests for Frontend
       run: |
         cd frontend
-        go test -v ./...
+        go test -v -mod=vendor ./...
   
   build-images:
     runs-on: ubuntu-latest
@@ -60,23 +65,63 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
+    # Configurar QEMU para suporte a múltiplas plataformas
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
+    
+    # Configurar Docker Buildx com mais opções
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
+      with:
+        install: true
+        version: latest
     
+    # Verificar a instalação do Docker
+    - name: Check Docker version
+      run: |
+        docker version
+        docker buildx version
+    
+    # Preparar o diretório vendor para o frontend
+    - name: Prepare vendor directory for frontend
+      run: |
+        cd frontend
+        go mod vendor
+    
+    # Construir imagem da API com mais detalhes de log
     - name: Build API Docker image
       uses: docker/build-push-action@v4
       with:
         context: ./api
+        file: ./api/Dockerfile
         push: false
+        load: true
         tags: ci-cd-demo-api:latest
         cache-from: type=gha
         cache-to: type=gha,mode=max
+        provenance: false
+        outputs: type=docker
+        platforms: linux/amd64
     
+    # Verificar a imagem da API
+    - name: Verify API image
+      run: docker images ci-cd-demo-api
+    
+    # Construir imagem do Frontend com mais detalhes de log
     - name: Build Frontend Docker image
       uses: docker/build-push-action@v4
       with:
         context: ./frontend
+        file: ./frontend/Dockerfile
         push: false
+        load: true
         tags: ci-cd-demo-frontend:latest
         cache-from: type=gha
-        cache-to: type=gha,mode=max 
+        cache-to: type=gha,mode=max
+        provenance: false
+        outputs: type=docker
+        platforms: linux/amd64
+    
+    # Verificar a imagem do Frontend
+    - name: Verify Frontend image
+      run: docker images ci-cd-demo-frontend 
