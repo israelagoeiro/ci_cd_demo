@@ -2,7 +2,7 @@ name: CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, develop ]
   workflow_dispatch:
     inputs:
       environment:
@@ -56,6 +56,12 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
+    
+    # Preparar o diretório vendor para o frontend
+    - name: Prepare vendor directory for frontend
+      run: |
+        cd frontend
+        go mod vendor
     
     # Construir imagem da API
     - name: Build API Docker image
@@ -128,6 +134,12 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
+    
+    # Preparar o diretório vendor para o frontend
+    - name: Prepare vendor directory for frontend
+      run: |
+        cd frontend
+        go mod vendor
     
     # Construir imagem da API
     - name: Build API Docker image
@@ -210,6 +222,12 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
+    
+    # Preparar o diretório vendor para o frontend
+    - name: Prepare vendor directory for frontend
+      run: |
+        cd frontend
+        go mod vendor
     
     # Construir imagem da API
     - name: Build API Docker image
