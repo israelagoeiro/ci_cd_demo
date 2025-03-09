@@ -1,0 +1,80 @@
+name: CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  # Para permitir execução manual
+  workflow_dispatch:
+
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    
+    - name: Build and push API image
+      uses: docker/build-push-action@v4
+      with:
+        context: ./api
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/ci-cd-demo-api:develop
+    
+    - name: Build and push Frontend image
+      uses: docker/build-push-action@v4
+      with:
+        context: ./frontend
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/ci-cd-demo-frontend:develop
+    
+    - name: Deploy to Development Environment
+      run: |
+        echo "Deploying to development environment..."
+        # Aqui você adicionaria comandos para deploy no ambiente de desenvolvimento
+        # Por exemplo, usando SSH para acessar o servidor e executar docker-compose
+  
+  deploy-prod:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    
+    - name: Build and push API image
+      uses: docker/build-push-action@v4
+      with:
+        context: ./api
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/ci-cd-demo-api:latest
+    
+    - name: Build and push Frontend image
+      uses: docker/build-push-action@v4
+      with:
+        context: ./frontend
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/ci-cd-demo-frontend:latest
+    
+    - name: Deploy to Production Environment
+      run: |
+        echo "Deploying to production environment..."
+        # Aqui você adicionaria comandos para deploy no ambiente de produção
+        # Por exemplo, usando SSH para acessar o servidor e executar docker-compose 
