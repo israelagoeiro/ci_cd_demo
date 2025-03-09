@@ -17,9 +17,12 @@
                 <h2>Minhas Tarefas</h2>
                 
                 {{#Tarefas}}
-                <div class="tarefa {{#Concluida}}concluida{{/Concluida}}">
+                <div class="tarefa {{#Concluida}}concluida{{/Concluida}}" data-id="{{ID}}">
                     <span class="tarefa-titulo">{{Titulo}}</span>
-                    <span class="tarefa-status">{{#Concluida}}Concluída{{/Concluida}}{{^Concluida}}Pendente{{/Concluida}}</span>
+                    <div class="tarefa-acoes">
+                        <span class="tarefa-status">{{#Concluida}}Concluída{{/Concluida}}{{^Concluida}}Pendente{{/Concluida}}</span>
+                        <button class="btn-excluir" data-id="{{ID}}" title="Excluir tarefa">X</button>
+                    </div>
                 </div>
                 {{/Tarefas}}
                 
@@ -33,5 +36,19 @@
             <p>CI/CD Demo - Aplicação Go com Fiber e Mustache</p>
         </footer>
     </div>
+
+    <!-- Modal de confirmação -->
+    <div id="modal-confirmacao" class="modal">
+        <div class="modal-conteudo">
+            <h3>Confirmar exclusão</h3>
+            <p>Tem certeza que deseja excluir esta tarefa?</p>
+            <div class="modal-acoes">
+                <button id="btn-confirmar">Sim, excluir</button>
+                <button id="btn-cancelar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
 </body>
 </html> 
