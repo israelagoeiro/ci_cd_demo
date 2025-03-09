@@ -70,7 +70,6 @@ jobs:
       with:
         install: true
         version: latest
-        driver-opts: image=moby/buildkit:latest
     
     # Verificar a instalação do Docker
     - name: Check Docker version
