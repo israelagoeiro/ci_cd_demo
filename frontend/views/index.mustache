@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,11 +10,14 @@
     <div class="container">
         <header>
             <h1>{{Titulo}}</h1>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Alternar tema">
+                <span id="theme-toggle-text">🌙 Modo Escuro</span>
+            </button>
         </header>
         
         <main>
             <div class="tarefas-container">
-                <h2>Minhas Tarefas XXX</h2>
+                <h2>Minhas Tarefas</h2>
                 
                 {{#Tarefas}}
                 <div class="tarefa {{#Concluida}}concluida{{/Concluida}}" data-id="{{ID}}">

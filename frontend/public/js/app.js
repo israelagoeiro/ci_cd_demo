@@ -3,6 +3,8 @@ const modal = document.getElementById('modal-confirmacao');
 const btnConfirmar = document.getElementById('btn-confirmar');
 const btnCancelar = document.getElementById('btn-cancelar');
 const botoesExcluir = document.querySelectorAll('.btn-excluir');
+const themeToggle = document.getElementById('theme-toggle');
+const themeToggleText = document.getElementById('theme-toggle-text');
 
 // ID da tarefa a ser excluída
 let tarefaIdParaExcluir = null;
@@ -17,6 +19,42 @@ function getApiUrl() {
     
     // Caso contrário, usar o padrão
     return 'http://localhost:8080';
+}
+
+// Função para gerenciar o tema
+function setupThemeToggle() {
+    // Verificar se há uma preferência salva
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    // Aplicar tema salvo ou usar preferência do sistema
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeToggleText(savedTheme);
+    } else if (prefersDarkScheme.matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        updateThemeToggleText('dark');
+    }
+    
+    // Adicionar event listener para o botão de alternância de tema
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        // Atualizar o tema
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeToggleText(newTheme);
+    });
+}
+
+// Função para atualizar o texto do botão de alternância de tema
+function updateThemeToggleText(theme) {
+    if (theme === 'dark') {
+        themeToggleText.innerHTML = '☀️ Modo Claro';
+    } else {
+        themeToggleText.innerHTML = '🌙 Modo Escuro';
+    }
 }
 
 // Função para mostrar o modal de confirmação
@@ -63,6 +101,11 @@ async function excluirTarefa(id) {
         alert('Não foi possível excluir a tarefa. Tente novamente mais tarde.');
     }
 }
+
+// Inicializar o gerenciamento de tema
+document.addEventListener('DOMContentLoaded', () => {
+    setupThemeToggle();
+});
 
 // Adicionar event listeners aos botões de excluir
 botoesExcluir.forEach(botao => {
