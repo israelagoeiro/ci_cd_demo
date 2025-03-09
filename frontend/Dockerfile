@@ -5,8 +5,12 @@ WORKDIR /app
 
 # Copiar arquivos de dependência
 COPY go.mod ./
-# Baixar dependências
+# Copiar go.sum se existir
+COPY go.sum* ./
+
+# Baixar dependências e garantir que go.sum esteja atualizado
 RUN go mod download
+RUN go mod tidy
 
 # Copiar o código fonte
 COPY *.go ./
