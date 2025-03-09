@@ -71,9 +71,10 @@ function Show-ElapsedTime {
     )
     
     $elapsedTime = (Get-Date) - $startTime
-    $formattedTime = "{0:mm}m {0:ss}s" -f $elapsedTime
+    $minutes = [math]::Floor($elapsedTime.TotalMinutes)
+    $seconds = [math]::Floor($elapsedTime.TotalSeconds) % 60
     
-    Write-Host "Tempo decorrido para $stepName: $formattedTime" -ForegroundColor DarkGray
+    Write-Host "Tempo decorrido para $stepName: $minutes minutos e $seconds segundos" -ForegroundColor DarkGray
 }
 
 # Se estiver usando GitHub Actions, redirecionar para o script de integração
@@ -375,14 +376,15 @@ if (-not $skipDeploy) {
 
 # Resumo final
 $totalTime = (Get-Date) - $startTime
-$formattedTotalTime = "{0:mm}m {0:ss}s" -f $totalTime
+$totalMinutes = [math]::Floor($totalTime.TotalMinutes)
+$totalSeconds = [math]::Floor($totalTime.TotalSeconds) % 60
 
 Write-Host "`n==================================================" -ForegroundColor Cyan
 Write-Host "  FLUXO DE CI/CD CONCLUÍDO COM SUCESSO" -ForegroundColor Green
 Write-Host "==================================================" -ForegroundColor Cyan
 Write-Host "Ambiente: $targetEnvironment" -ForegroundColor Cyan
 Write-Host "Componente: $component" -ForegroundColor Cyan
-Write-Host "Tempo total: $formattedTotalTime" -ForegroundColor Cyan
+Write-Host "Tempo total: $totalMinutes minutos e $totalSeconds segundos" -ForegroundColor Cyan
 Write-Host "==================================================" -ForegroundColor Cyan
 
 # Sugestão para usar GitHub Actions
