@@ -1,0 +1,165 @@
+# Script para criar issues no GitHub a partir dos arquivos de definições
+# Você precisa gerar um token de acesso pessoal no GitHub com permissão para "repo"
+# https://github.com/settings/tokens
+
+# Configurações
+$owner = "israelagoeiro" # Substitua pelo seu nome de usuário do GitHub
+$repo = "ci_cd_demo" # Substitua pelo nome do seu repositório
+$token = "" # Substitua pelo seu token de acesso pessoal do GitHub
+
+# Verificar se o token foi fornecido
+if ([string]::IsNullOrEmpty($token)) {
+    # Tentar ler o token do arquivo .env
+    if (Test-Path "../../.env") {
+        $envContent = Get-Content "../../.env" -ErrorAction SilentlyContinue
+        foreach ($line in $envContent) {
+            if ($line -match "^\s*GITHUB_TOKEN\s*=\s*(.+)\s*$") {
+                $token = $matches[1]
+                break
+            }
+        }
+    }
+    
+    # Se ainda estiver vazio, solicitar ao usuário
+    if ([string]::IsNullOrEmpty($token)) {
+        Write-Host "Por favor, edite este script e adicione seu token de acesso pessoal do GitHub." -ForegroundColor Red
+        Write-Host "Você pode gerar um token em: https://github.com/settings/tokens" -ForegroundColor Yellow
+        exit 1
+    }
+}
+
+# Função para criar uma issue
+function Create-GitHubIssue {
+    param (
+        [string]$title,
+        [string]$body,
+        [string[]]$labels
+    )
+    
+    $url = "https://api.github.com/repos/$owner/$repo/issues"
+    
+    $headers = @{
+        "Authorization" = "token $token"
+        "Accept" = "application/vnd.github+json"
+        "X-GitHub-Api-Version" = "2022-11-28"
+    }
+    
+    $payload = @{
+        title = $title
+        body = $body
+        labels = $labels
+    } | ConvertTo-Json
+    
+    try {
+        $response = Invoke-RestMethod -Uri $url -Method Post -Headers $headers -Body $payload -ContentType "application/json"
+        Write-Host "Issue criada com sucesso: $($response.html_url)" -ForegroundColor Green
+        return $response
+    }
+    catch {
+        Write-Host "Erro ao criar issue: $_" -ForegroundColor Red
+        return $null
+    }
+}
+
+# Função para ler as definições de issues de um arquivo Markdown
+function Read-IssueDefinitions {
+    param (
+        [string]$filePath
+    )
+    
+    if (-not (Test-Path $filePath)) {
+        Write-Host "Arquivo $filePath não encontrado." -ForegroundColor Red
+        return @()
+    }
+    
+    $content = Get-Content $filePath -Raw
+    $issueBlocks = $content -split "## Issue \d+: "
+    
+    $issues = @()
+    
+    foreach ($block in $issueBlocks) {
+        if ([string]::IsNullOrWhiteSpace($block) -or $block.StartsWith("# ")) {
+            continue
+        }
+        
+        $lines = $block -split "`n"
+        $title = $lines[0].Trim()
+        
+        $bodyStart = $lines.IndexOf("**Descrição:**") + 1
+        $bodyEnd = $lines.IndexOf("**Labels sugeridas:**") - 1
+        
+        if ($bodyStart -gt 0 -and $bodyEnd -gt $bodyStart) {
+            $body = ($lines[$bodyStart..$bodyEnd] -join "`n").Trim()
+            
+            $labelsLine = $lines | Where-Object { $_ -match "^\*\*Labels sugeridas:\*\* (.+)$" }
+            $labels = @()
+            
+            if ($labelsLine) {
+                $labelsText = $labelsLine -replace "^\*\*Labels sugeridas:\*\* ", ""
+                $labels = $labelsText -split ", " | ForEach-Object { $_.Trim() }
+            }
+            
+            $issues += @{
+                title = $title
+                body = $body
+                labels = $labels
+            }
+        }
+    }
+    
+    return $issues
+}
+
+# Arquivos de definições de issues
+$issueFiles = @(
+    "../issues/backend-issues.md",
+    "../issues/security-issues.md",
+    "../issues/ux-advanced-issues.md",
+    "../issues/devops-issues.md"
+)
+
+# Criar as issues
+Write-Host "Iniciando a criação de issues no GitHub..." -ForegroundColor Cyan
+Write-Host "Repositório: $owner/$repo" -ForegroundColor Cyan
+
+$totalIssues = 0
+
+foreach ($file in $issueFiles) {
+    Write-Host "Processando arquivo $file..." -ForegroundColor Cyan
+    $issues = Read-IssueDefinitions -filePath $file
+    $totalIssues += $issues.Count
+    
+    foreach ($issue in $issues) {
+        Write-Host "Criando issue: $($issue.title)" -ForegroundColor Yellow
+        $result = Create-GitHubIssue -title $issue.title -body $issue.body -labels $issue.labels
+        
+        if ($result -ne $null) {
+            Write-Host "Issue criada com sucesso: $($result.html_url)" -ForegroundColor Green
+        }
+        
+        # Pequena pausa para evitar limitação de taxa da API
+        Start-Sleep -Seconds 2
+    }
+}
+
+Write-Host ""
+Write-Host "Total de issues a serem criadas: $totalIssues" -ForegroundColor Cyan
+Write-Host "Processo concluído!" -ForegroundColor Green
+
+# Atualizar a lista de tarefas
+Write-Host "Atualizando a lista de tarefas..." -ForegroundColor Cyan
+try {
+    # Verificar se o script read-issues-and-create-tasks.ps1 existe
+    if (Test-Path "read-issues-and-create-tasks.ps1") {
+        & .\read-issues-and-create-tasks.ps1
+        
+        # Mover o arquivo para o diretório task
+        Move-Item -Force tarefas-*.md ../task/
+        
+        Write-Host "Lista de tarefas atualizada com sucesso!" -ForegroundColor Green
+    } else {
+        Write-Host "Script read-issues-and-create-tasks.ps1 não encontrado. A lista de tarefas não foi atualizada." -ForegroundColor Yellow
+    }
+} catch {
+    Write-Host "Erro ao atualizar a lista de tarefas: $_" -ForegroundColor Red
+} 
