@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{Titulo}}</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>{{Titulo}}</h1>
+        </header>
+        
+        <main>
+            <div class="tarefas-container">
+                <h2>Minhas Tarefas</h2>
+                
+                {{#Tarefas}}
+                <div class="tarefa {{#Concluida}}concluida{{/Concluida}}">
+                    <span class="tarefa-titulo">{{Titulo}}</span>
+                    <span class="tarefa-status">{{#Concluida}}Concluída{{/Concluida}}{{^Concluida}}Pendente{{/Concluida}}</span>
+                </div>
+                {{/Tarefas}}
+                
+                {{^Tarefas}}
+                <p class="sem-tarefas">Nenhuma tarefa encontrada.</p>
+                {{/Tarefas}}
+            </div>
+        </main>
+        
+        <footer>
+            <p>CI/CD Demo - Aplicação Go com Fiber e Mustache</p>
+        </footer>
+    </div>
+</body>
+</html> 

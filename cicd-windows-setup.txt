@@ -1,0 +1,257 @@
+# Configuração de CI/CD Local no Windows com GitHub Actions
+
+Este guia mostra como configurar um ambiente CI/CD local no Windows para testar seus fluxos de trabalho antes de enviá-los para o servidor.
+
+## 1. Pré-requisitos
+
+Primeiro, precisamos instalar as ferramentas necessárias:
+
+- Git
+- Visual Studio Code (ou seu editor preferido)
+- Docker Desktop para Windows
+- Node.js (caso seja uma aplicação JavaScript/Node)
+- Act - ferramenta para executar GitHub Actions localmente
+
+## 2. Instalação do Act
+
+O [Act](https://github.com/nektos/act) é uma ferramenta que permite executar GitHub Actions localmente. Para instalar no Windows:
+
+```powershell
+# Usando Chocolatey
+choco install act-cli
+
+# Ou usando Scoop
+scoop install act
+```
+
+## 3. Estrutura do Projeto
+
+Crie a seguinte estrutura de diretórios no seu projeto:
+
+```
+meu-projeto/
+│
+├── .github/
+│   └── workflows/
+│       ├── ci.yml          # Workflow de integração contínua
+│       └── cd.yml          # Workflow de entrega contínua
+│
+├── src/                    # Código fonte da aplicação
+│
+├── tests/                  # Testes automatizados
+│
+└── .actrc                  # Configuração do Act
+```
+
+## 4. Configuração do GitHub Actions
+
+### 4.1. Workflow de CI (ci.yml)
+
+```yaml
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  # Para permitir execução manual
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run linting
+      run: npm run lint
+    
+    - name: Run tests
+      run: npm test
+    
+    - name: Build application
+      run: npm run build
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build
+        path: build/
+```
+
+### 4.2. Workflow de CD (cd.yml)
+
+```yaml
+name: CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  # Para permitir execução manual
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: build
+        path: build/
+    
+    - name: Build Docker image
+      run: docker build -t minha-aplicacao:latest .
+    
+    - name: Test Docker image
+      run: docker run --rm minha-aplicacao:latest npm test
+    
+    - name: Deploy to staging
+      if: github.ref == 'refs/heads/develop'
+      run: |
+        echo "Deploying to staging environment..."
+        # Comandos de deploy para staging
+    
+    - name: Deploy to production
+      if: github.ref == 'refs/heads/main'
+      run: |
+        echo "Deploying to production environment..."
+        # Comandos de deploy para produção
+```
+
+## 5. Configuração do Docker
+
+Crie um Dockerfile na raiz do seu projeto:
+
+```dockerfile
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm ci
+
+COPY . .
+
+RUN npm run build
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
+```
+
+## 6. Configuração do Act (.actrc)
+
+Crie um arquivo `.actrc` na raiz do seu projeto:
+
+```
+-P ubuntu-latest=nektos/act-environments-ubuntu:18.04
+-P windows-latest=mcr.microsoft.com/windows/servercore:ltsc2019
+--bind
+```
+
+## 7. Executando CI/CD Localmente
+
+Para executar seus workflows GitHub Actions localmente:
+
+```powershell
+# Executar todo o workflow de CI
+act push -W .github/workflows/ci.yml
+
+# Executar um job específico
+act push -W .github/workflows/ci.yml -j build
+
+# Simular um evento de pull request
+act pull_request -W .github/workflows/ci.yml
+
+# Executar o workflow de CD
+act push -W .github/workflows/cd.yml
+```
+
+## 8. Integração com IDEs
+
+### 8.1. Visual Studio Code
+
+Instale as extensões:
+- GitHub Actions
+- Docker
+- Remote - Containers
+
+Estas extensões fornecem suporte para edição de arquivos YAML de GitHub Actions, gerenciamento de contêineres Docker e desenvolvimento dentro de contêineres.
+
+## 9. Monitoramento Local
+
+Para monitorar suas execuções locais, você pode:
+
+1. Verificar os logs de saída do Act
+2. Usar Docker Desktop para monitorar contêineres
+3. Configurar um dashboard local com Grafana e Prometheus
+
+## 10. Boas Práticas
+
+1. **Variáveis de Ambiente**: Use arquivos `.env` para desenvolvimento local e segredos GitHub para o repositório.
+
+   ```powershell
+   # Executar com variáveis de ambiente
+   act -s MY_SECRET=valor-secreto
+   ```
+
+2. **Caching**: Configure corretamente o caching para acelerar as builds.
+
+3. **Testes Consistentes**: Garanta que os testes funcionem da mesma forma localmente e no servidor.
+
+4. **Contêineres**: Use Docker para garantir ambientes consistentes.
+
+## 11. Troubleshooting
+
+- **Problemas com Act em Windows**: Execute no WSL2 (Windows Subsystem for Linux) para melhor compatibilidade.
+  
+- **Problemas com memória Docker**: Aumente os recursos alocados para o Docker Desktop.
+
+- **Caminhos de arquivo**: Cuidado com diferenças de path entre Windows e Linux.
+
+## 12. Exemplo de Script PowerShell para Automatizar Testes
+
+Crie um arquivo `local-ci-cd.ps1` na raiz do projeto:
+
+```powershell
+# local-ci-cd.ps1
+param (
+    [string]$workflow = "ci.yml",
+    [string]$event = "push",
+    [string]$branch = "develop"
+)
+
+Write-Host "Executando workflow $workflow com evento $event na branch $branch" -ForegroundColor Green
+
+# Definir a branch atual para simular
+$env:GITHUB_REF = "refs/heads/$branch"
+
+# Executar o workflow
+act $event -W .github/workflows/$workflow
+
+# Limpar
+Remove-Item Env:\GITHUB_REF
+```
+
+Execute com:
+
+```powershell
+.\local-ci-cd.ps1 -workflow "ci.yml" -event "push" -branch "develop"
+```
