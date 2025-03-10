@@ -144,7 +144,7 @@ jobs:
     
     # Salvar o arquivo docker-compose como artefato
     - name: Upload docker-compose.dev.yml as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: docker-compose-dev
         path: docker-compose.dev.yml
@@ -274,7 +274,7 @@ jobs:
     
     # Salvar o arquivo docker-compose como artefato
     - name: Upload docker-compose.test.yml as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: docker-compose-test
         path: docker-compose.test.yml
@@ -416,7 +416,7 @@ jobs:
     
     # Salvar o arquivo docker-compose como artefato
     - name: Upload docker-compose.prod.yml as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: docker-compose-prod
         path: docker-compose.prod.yml
