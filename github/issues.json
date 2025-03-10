@@ -1,0 +1,578 @@
+[
+  {
+    "number": 30,
+    "title": "Melhorar a estrutura do código",
+    "body": "O código atual tem toda a lógica no arquivo main.go. Devemos refatorar para uma estrutura mais organizada:\r\n\r\n- Separar componentes em arquivos diferentes\r\n- Criar pacotes para diferentes funcionalidades (API, UI, etc.)\r\n- Implementar um gerenciamento de estado mais robusto\r\n- Melhorar o tratamento de erros e logging",
+    "state": "open",
+    "created_at": "2025-03-09T18:38:04Z",
+    "updated_at": "2025-03-09T18:38:04Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/30",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      },
+      {
+        "name": "refactoring",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 29,
+    "title": "Adicionar tema escuro (Dark Mode)",
+    "body": "Implementar um tema escuro para melhorar a experiência do usuário, especialmente em ambientes com pouca luz:\r\n\r\n- Criar variáveis CSS para cores\r\n- Implementar alternância entre tema claro e escuro\r\n- Respeitar a preferência do sistema do usuário (prefers-color-scheme)\r\n- Salvar a preferência do usuário no localStorage",
+    "state": "open",
+    "created_at": "2025-03-09T18:38:02Z",
+    "updated_at": "2025-03-09T18:38:02Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/29",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      },
+      {
+        "name": "UI/UX",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 28,
+    "title": "Implementar testes de componentes",
+    "body": "Atualmente só temos um teste básico para o endpoint de saúde. Precisamos expandir a cobertura de testes para incluir:\r\n\r\n- Testes para todos os componentes do frontend\r\n- Testes de integração para as interações com a API\r\n- Mocks para simular respostas da API\r\n- Testes para cenários de erro e casos de borda",
+    "state": "open",
+    "created_at": "2025-03-09T18:38:00Z",
+    "updated_at": "2025-03-09T18:38:00Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/28",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      },
+      {
+        "name": "testing",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 27,
+    "title": "Adicionar feedback visual para operações assíncronas",
+    "body": "Atualmente não há feedback visual quando o frontend está carregando dados da API ou realizando operações. Devemos adicionar:\r\n\r\n- Indicadores de carregamento (spinners) durante a busca de dados\r\n- Mensagens de sucesso após operações bem-sucedidas\r\n- Mensagens de erro quando as operações falham\r\n- Desabilitar botões durante operações em andamento para evitar cliques duplos",
+    "state": "open",
+    "created_at": "2025-03-09T18:37:58Z",
+    "updated_at": "2025-03-09T18:37:58Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/27",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      },
+      {
+        "name": "UX",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 26,
+    "title": "Melhorar a responsividade do layout",
+    "body": "O layout atual precisa ser melhorado para funcionar bem em dispositivos móveis e telas de diferentes tamanhos. Devemos:\r\n\r\n- Ajustar o CSS para usar unidades relativas (%, rem, em) em vez de pixels fixos\r\n- Implementar media queries para diferentes tamanhos de tela\r\n- Garantir que todos os elementos se ajustem corretamente em telas pequenas\r\n- Testar em diferentes dispositivos e navegadores",
+    "state": "open",
+    "created_at": "2025-03-09T18:37:57Z",
+    "updated_at": "2025-03-09T18:37:57Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/26",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      },
+      {
+        "name": "UI/UX",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 25,
+    "title": "Implementar funcionalidade de excluir tarefas",
+    "body": "Adicionar a capacidade de excluir tarefas existentes. Cada tarefa deve ter um botão de exclusão que, quando clicado:\r\n\r\n- Exibe uma confirmação para evitar exclusões acidentais\r\n- Remove a tarefa da lista após confirmação\r\n- Envia a solicitação de exclusão para a API",
+    "state": "open",
+    "created_at": "2025-03-09T18:37:55Z",
+    "updated_at": "2025-03-09T18:37:55Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/25",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 24,
+    "title": "Implementar funcionalidade de editar tarefas existentes",
+    "body": "Precisamos adicionar a capacidade de editar tarefas existentes. Ao clicar em uma tarefa, o usuário deve poder:\r\n\r\n- Editar o título da tarefa\r\n- Alterar o status (concluída/pendente)\r\n- Salvar as alterações ou cancelar a edição\r\n\r\nA API também precisará ser atualizada para suportar a edição de tarefas.",
+    "state": "open",
+    "created_at": "2025-03-09T18:37:53Z",
+    "updated_at": "2025-03-09T18:37:53Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/24",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 23,
+    "title": "Implementar funcionalidade de adicionar novas tarefas",
+    "body": "Atualmente o frontend apenas exibe as tarefas existentes, mas não permite adicionar novas tarefas. Devemos implementar um formulário para adicionar novas tarefas com os seguintes campos:\r\n\r\n- Título da tarefa\r\n- Status (concluída ou pendente)\r\n\r\nO formulário deve enviar os dados para a API e atualizar a lista de tarefas após o envio bem-sucedido.",
+    "state": "open",
+    "created_at": "2025-03-09T18:37:52Z",
+    "updated_at": "2025-03-09T18:37:52Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/23",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 22,
+    "title": "Melhorar a estrutura do código",
+    "body": "O código atual tem toda a lógica no arquivo main.go. Devemos refatorar para uma estrutura mais organizada:\r\n\r\n- Separar componentes em arquivos diferentes\r\n- Criar pacotes para diferentes funcionalidades (API, UI, etc.)\r\n- Implementar um gerenciamento de estado mais robusto\r\n- Melhorar o tratamento de erros e logging",
+    "state": "open",
+    "created_at": "2025-03-09T18:36:32Z",
+    "updated_at": "2025-03-09T18:36:32Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/22",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      },
+      {
+        "name": "refactoring",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 21,
+    "title": "Adicionar tema escuro (Dark Mode)",
+    "body": "Implementar um tema escuro para melhorar a experiência do usuário, especialmente em ambientes com pouca luz:\r\n\r\n- Criar variáveis CSS para cores\r\n- Implementar alternância entre tema claro e escuro\r\n- Respeitar a preferência do sistema do usuário (prefers-color-scheme)\r\n- Salvar a preferência do usuário no localStorage",
+    "state": "open",
+    "created_at": "2025-03-09T18:36:30Z",
+    "updated_at": "2025-03-09T18:36:30Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/21",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      },
+      {
+        "name": "UI/UX",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 20,
+    "title": "Implementar testes de componentes",
+    "body": "Atualmente só temos um teste básico para o endpoint de saúde. Precisamos expandir a cobertura de testes para incluir:\r\n\r\n- Testes para todos os componentes do frontend\r\n- Testes de integração para as interações com a API\r\n- Mocks para simular respostas da API\r\n- Testes para cenários de erro e casos de borda",
+    "state": "open",
+    "created_at": "2025-03-09T18:36:28Z",
+    "updated_at": "2025-03-09T18:36:28Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/20",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      },
+      {
+        "name": "testing",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 19,
+    "title": "Adicionar feedback visual para operações assíncronas",
+    "body": "Atualmente não há feedback visual quando o frontend está carregando dados da API ou realizando operações. Devemos adicionar:\r\n\r\n- Indicadores de carregamento (spinners) durante a busca de dados\r\n- Mensagens de sucesso após operações bem-sucedidas\r\n- Mensagens de erro quando as operações falham\r\n- Desabilitar botões durante operações em andamento para evitar cliques duplos",
+    "state": "open",
+    "created_at": "2025-03-09T18:36:27Z",
+    "updated_at": "2025-03-09T18:36:27Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/19",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      },
+      {
+        "name": "UX",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 18,
+    "title": "Melhorar a responsividade do layout",
+    "body": "O layout atual precisa ser melhorado para funcionar bem em dispositivos móveis e telas de diferentes tamanhos. Devemos:\r\n\r\n- Ajustar o CSS para usar unidades relativas (%, rem, em) em vez de pixels fixos\r\n- Implementar media queries para diferentes tamanhos de tela\r\n- Garantir que todos os elementos se ajustem corretamente em telas pequenas\r\n- Testar em diferentes dispositivos e navegadores",
+    "state": "open",
+    "created_at": "2025-03-09T18:36:25Z",
+    "updated_at": "2025-03-09T18:36:25Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/18",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      },
+      {
+        "name": "UI/UX",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 17,
+    "title": "Implementar funcionalidade de excluir tarefas",
+    "body": "Adicionar a capacidade de excluir tarefas existentes. Cada tarefa deve ter um botão de exclusão que, quando clicado:\r\n\r\n- Exibe uma confirmação para evitar exclusões acidentais\r\n- Remove a tarefa da lista após confirmação\r\n- Envia a solicitação de exclusão para a API",
+    "state": "open",
+    "created_at": "2025-03-09T18:36:23Z",
+    "updated_at": "2025-03-09T18:36:23Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/17",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 16,
+    "title": "Implementar funcionalidade de editar tarefas existentes",
+    "body": "Precisamos adicionar a capacidade de editar tarefas existentes. Ao clicar em uma tarefa, o usuário deve poder:\r\n\r\n- Editar o título da tarefa\r\n- Alterar o status (concluída/pendente)\r\n- Salvar as alterações ou cancelar a edição\r\n\r\nA API também precisará ser atualizada para suportar a edição de tarefas.",
+    "state": "open",
+    "created_at": "2025-03-09T18:36:21Z",
+    "updated_at": "2025-03-09T18:36:21Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/16",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 15,
+    "title": "Implementar funcionalidade de adicionar novas tarefas",
+    "body": "Atualmente o frontend apenas exibe as tarefas existentes, mas não permite adicionar novas tarefas. Devemos implementar um formulário para adicionar novas tarefas com os seguintes campos:\r\n\r\n- Título da tarefa\r\n- Status (concluída ou pendente)\r\n\r\nO formulário deve enviar os dados para a API e atualizar a lista de tarefas após o envio bem-sucedido.",
+    "state": "open",
+    "created_at": "2025-03-09T18:36:20Z",
+    "updated_at": "2025-03-09T18:36:20Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/15",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 14,
+    "title": "Develop",
+    "body": "",
+    "state": "closed",
+    "created_at": "2025-03-09T17:51:49Z",
+    "updated_at": "2025-03-09T17:53:11Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/pull/14",
+    "labels": []
+  },
+  {
+    "number": 13,
+    "title": "Develop",
+    "body": "",
+    "state": "closed",
+    "created_at": "2025-03-09T14:41:30Z",
+    "updated_at": "2025-03-09T14:50:11Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/pull/13",
+    "labels": []
+  },
+  {
+    "number": 12,
+    "title": "Melhorar a estrutura do código",
+    "body": "O código atual tem toda a lógica no arquivo main.go. Devemos refatorar para uma estrutura mais organizada:\r\n\r\n- Separar componentes em arquivos diferentes\r\n- Criar pacotes para diferentes funcionalidades (API, UI, etc.)\r\n- Implementar um gerenciamento de estado mais robusto\r\n- Melhorar o tratamento de erros e logging",
+    "state": "open",
+    "created_at": "2025-03-09T13:53:12Z",
+    "updated_at": "2025-03-09T13:53:12Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/12",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      },
+      {
+        "name": "refactoring",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 11,
+    "title": "Adicionar tema escuro (Dark Mode)",
+    "body": "Implementar um tema escuro para melhorar a experiência do usuário, especialmente em ambientes com pouca luz:\r\n\r\n- Criar variáveis CSS para cores\r\n- Implementar alternância entre tema claro e escuro\r\n- Respeitar a preferência do sistema do usuário (prefers-color-scheme)\r\n- Salvar a preferência do usuário no localStorage",
+    "state": "closed",
+    "created_at": "2025-03-09T13:53:10Z",
+    "updated_at": "2025-03-09T18:18:52Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/11",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      },
+      {
+        "name": "UI/UX",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 10,
+    "title": "Implementar testes de componentes",
+    "body": "Atualmente só temos um teste básico para o endpoint de saúde. Precisamos expandir a cobertura de testes para incluir:\r\n\r\n- Testes para todos os componentes do frontend\r\n- Testes de integração para as interações com a API\r\n- Mocks para simular respostas da API\r\n- Testes para cenários de erro e casos de borda",
+    "state": "open",
+    "created_at": "2025-03-09T13:53:08Z",
+    "updated_at": "2025-03-09T13:53:08Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/10",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      },
+      {
+        "name": "testing",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 9,
+    "title": "Adicionar feedback visual para operações assíncronas",
+    "body": "Atualmente não há feedback visual quando o frontend está carregando dados da API ou realizando operações. Devemos adicionar:\r\n\r\n- Indicadores de carregamento (spinners) durante a busca de dados\r\n- Mensagens de sucesso após operações bem-sucedidas\r\n- Mensagens de erro quando as operações falham\r\n- Desabilitar botões durante operações em andamento para evitar cliques duplos",
+    "state": "open",
+    "created_at": "2025-03-09T13:53:06Z",
+    "updated_at": "2025-03-09T13:53:06Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/9",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      },
+      {
+        "name": "UX",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 8,
+    "title": "Melhorar a responsividade do layout",
+    "body": "O layout atual precisa ser melhorado para funcionar bem em dispositivos móveis e telas de diferentes tamanhos. Devemos:\r\n\r\n- Ajustar o CSS para usar unidades relativas (%, rem, em) em vez de pixels fixos\r\n- Implementar media queries para diferentes tamanhos de tela\r\n- Garantir que todos os elementos se ajustem corretamente em telas pequenas\r\n- Testar em diferentes dispositivos e navegadores",
+    "state": "open",
+    "created_at": "2025-03-09T13:53:04Z",
+    "updated_at": "2025-03-09T13:53:04Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/8",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      },
+      {
+        "name": "UI/UX",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 7,
+    "title": "Implementar funcionalidade de excluir tarefas",
+    "body": "Adicionar a capacidade de excluir tarefas existentes. Cada tarefa deve ter um botão de exclusão que, quando clicado:\r\n\r\n- Exibe uma confirmação para evitar exclusões acidentais\r\n- Remove a tarefa da lista após confirmação\r\n- Envia a solicitação de exclusão para a API",
+    "state": "closed",
+    "created_at": "2025-03-09T13:53:02Z",
+    "updated_at": "2025-03-09T14:45:21Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/7",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 6,
+    "title": "Implementar funcionalidade de editar tarefas existentes",
+    "body": "Precisamos adicionar a capacidade de editar tarefas existentes. Ao clicar em uma tarefa, o usuário deve poder:\r\n\r\n- Editar o título da tarefa\r\n- Alterar o status (concluída/pendente)\r\n- Salvar as alterações ou cancelar a edição\r\n\r\nA API também precisará ser atualizada para suportar a edição de tarefas.",
+    "state": "open",
+    "created_at": "2025-03-09T13:53:00Z",
+    "updated_at": "2025-03-09T13:53:00Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/6",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 5,
+    "title": "Implementar funcionalidade de adicionar novas tarefas",
+    "body": "Atualmente o frontend apenas exibe as tarefas existentes, mas não permite adicionar novas tarefas. Devemos implementar um formulário para adicionar novas tarefas com os seguintes campos:\r\n\r\n- Título da tarefa\r\n- Status (concluída ou pendente)\r\n\r\nO formulário deve enviar os dados para a API e atualizar a lista de tarefas após o envio bem-sucedido.",
+    "state": "open",
+    "created_at": "2025-03-09T13:52:58Z",
+    "updated_at": "2025-03-09T13:52:58Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/issues/5",
+    "labels": [
+      {
+        "name": "enhancement",
+        "color": "a2eeef"
+      },
+      {
+        "name": "frontend",
+        "color": "ededed"
+      }
+    ]
+  },
+  {
+    "number": 4,
+    "title": "Merge pull request #2 from israelagoeiro/develop",
+    "body": "Develop",
+    "state": "closed",
+    "created_at": "2025-03-09T13:31:07Z",
+    "updated_at": "2025-03-09T13:31:23Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/pull/4",
+    "labels": []
+  },
+  {
+    "number": 3,
+    "title": "Adicionar artefatos de docker-compose e script de teste local",
+    "body": "",
+    "state": "closed",
+    "created_at": "2025-03-09T13:27:47Z",
+    "updated_at": "2025-03-09T13:30:24Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/pull/3",
+    "labels": []
+  },
+  {
+    "number": 2,
+    "title": "Develop",
+    "body": "",
+    "state": "closed",
+    "created_at": "2025-03-09T12:42:30Z",
+    "updated_at": "2025-03-09T13:19:00Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/pull/2",
+    "labels": []
+  },
+  {
+    "number": 1,
+    "title": "Nova atualização",
+    "body": "",
+    "state": "closed",
+    "created_at": "2025-03-09T12:37:03Z",
+    "updated_at": "2025-03-09T12:40:37Z",
+    "html_url": "https://github.com/israelagoeiro/ci_cd_demo/pull/1",
+    "labels": []
+  }
+]

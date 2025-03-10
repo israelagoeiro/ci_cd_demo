@@ -97,6 +97,58 @@ jobs:
         echo "Deploying to development environment..."
         echo "API image: ${{ secrets.DOCKERHUB_USERNAME || 'local' }}/ci-cd-demo-api:develop"
         echo "Frontend image: ${{ secrets.DOCKERHUB_USERNAME || 'local' }}/ci-cd-demo-frontend:develop"
+    
+    # Criar arquivo docker-compose para ambiente de desenvolvimento
+    - name: Create docker-compose.dev.yml
+      run: |
+        cat > docker-compose.dev.yml << EOL
+        version: '3.8'
+        
+        services:
+          api:
+            image: ${{ secrets.DOCKERHUB_USERNAME || 'local' }}/ci-cd-demo-api:develop
+            container_name: ci-cd-demo-api
+            ports:
+              - "8080:8080"
+            networks:
+              - ci-cd-network
+            healthcheck:
+              test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
+              interval: 30s
+              timeout: 10s
+              retries: 3
+              start_period: 10s
+        
+          frontend:
+            image: ${{ secrets.DOCKERHUB_USERNAME || 'local' }}/ci-cd-demo-frontend:develop
+            container_name: ci-cd-demo-frontend
+            ports:
+              - "3000:3000"
+            depends_on:
+              - api
+            environment:
+              - API_URL=http://api:8080
+            networks:
+              - ci-cd-network
+            healthcheck:
+              test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+              interval: 30s
+              timeout: 10s
+              retries: 3
+              start_period: 10s
+        
+        networks:
+          ci-cd-network:
+            driver: bridge
+        EOL
+    
+    # Salvar o arquivo docker-compose como artefato
+    - name: Upload docker-compose.dev.yml as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: docker-compose-dev
+        path: docker-compose.dev.yml
+        retention-days: 7
   
   deploy-test:
     if: github.event.inputs.environment == 'test'
@@ -175,6 +227,58 @@ jobs:
         echo "Deploying to test environment..."
         echo "API image: ${{ secrets.DOCKERHUB_USERNAME || 'local' }}/ci-cd-demo-api:test"
         echo "Frontend image: ${{ secrets.DOCKERHUB_USERNAME || 'local' }}/ci-cd-demo-frontend:test"
+    
+    # Criar arquivo docker-compose para ambiente de teste
+    - name: Create docker-compose.test.yml
+      run: |
+        cat > docker-compose.test.yml << EOL
+        version: '3.8'
+        
+        services:
+          api:
+            image: ${{ secrets.DOCKERHUB_USERNAME || 'local' }}/ci-cd-demo-api:test
+            container_name: ci-cd-demo-api
+            ports:
+              - "8080:8080"
+            networks:
+              - ci-cd-network
+            healthcheck:
+              test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
+              interval: 30s
+              timeout: 10s
+              retries: 3
+              start_period: 10s
+        
+          frontend:
+            image: ${{ secrets.DOCKERHUB_USERNAME || 'local' }}/ci-cd-demo-frontend:test
+            container_name: ci-cd-demo-frontend
+            ports:
+              - "3000:3000"
+            depends_on:
+              - api
+            environment:
+              - API_URL=http://api:8080
+            networks:
+              - ci-cd-network
+            healthcheck:
+              test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+              interval: 30s
+              timeout: 10s
+              retries: 3
+              start_period: 10s
+        
+        networks:
+          ci-cd-network:
+            driver: bridge
+        EOL
+    
+    # Salvar o arquivo docker-compose como artefato
+    - name: Upload docker-compose.test.yml as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: docker-compose-test
+        path: docker-compose.test.yml
+        retention-days: 7
   
   deploy-prod:
     if: github.event.inputs.environment == 'prod' || github.ref == 'refs/heads/main'
@@ -262,4 +366,58 @@ jobs:
       run: |
         echo "Deploying to production environment with version ${{ steps.set-version.outputs.VERSION }}..."
         echo "API image: ${{ secrets.DOCKERHUB_USERNAME || 'local' }}/ci-cd-demo-api:${{ steps.set-version.outputs.VERSION }}"
-        echo "Frontend image: ${{ secrets.DOCKERHUB_USERNAME || 'local' }}/ci-cd-demo-frontend:${{ steps.set-version.outputs.VERSION }}" 
+        echo "Frontend image: ${{ secrets.DOCKERHUB_USERNAME || 'local' }}/ci-cd-demo-frontend:${{ steps.set-version.outputs.VERSION }}"
+    
+    # Criar arquivo docker-compose para ambiente de produção
+    - name: Create docker-compose.prod.yml
+      run: |
+        cat > docker-compose.prod.yml << EOL
+        version: '3.8'
+        
+        services:
+          api:
+            image: ${{ secrets.DOCKERHUB_USERNAME || 'local' }}/ci-cd-demo-api:${{ steps.set-version.outputs.VERSION }}
+            container_name: ci-cd-demo-api
+            ports:
+              - "8080:8080"
+            networks:
+              - ci-cd-network
+            restart: always
+            healthcheck:
+              test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
+              interval: 30s
+              timeout: 10s
+              retries: 3
+              start_period: 10s
+        
+          frontend:
+            image: ${{ secrets.DOCKERHUB_USERNAME || 'local' }}/ci-cd-demo-frontend:${{ steps.set-version.outputs.VERSION }}
+            container_name: ci-cd-demo-frontend
+            ports:
+              - "3000:3000"
+            depends_on:
+              - api
+            environment:
+              - API_URL=http://api:8080
+            networks:
+              - ci-cd-network
+            restart: always
+            healthcheck:
+              test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+              interval: 30s
+              timeout: 10s
+              retries: 3
+              start_period: 10s
+        
+        networks:
+          ci-cd-network:
+            driver: bridge
+        EOL
+    
+    # Salvar o arquivo docker-compose como artefato
+    - name: Upload docker-compose.prod.yml as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: docker-compose-prod
+        path: docker-compose.prod.yml
+        retention-days: 7 

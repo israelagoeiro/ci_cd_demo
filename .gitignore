@@ -1,0 +1,77 @@
+# Arquivos de ambiente e configuração
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+*.env
+
+# Arquivos de log
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Diretórios de dependências
+node_modules/
+vendor/
+/dist/
+
+# Arquivos de build
+/build/
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Arquivos temporários
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+.tmp/
+.temp/
+tmp/
+temp/
+
+# Arquivos de IDE e editores
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Arquivos específicos do Go
+/bin/
+/pkg/
+
+# Arquivos específicos do Docker
+.dockerignore
+
+# Arquivos de cache
+.cache/
+.npm/
+.eslintcache
+.stylelintcache
+
+# Arquivos de cobertura de testes
+coverage/
+.nyc_output/
+
+# Arquivos de certificados e chaves
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+*.pfx 

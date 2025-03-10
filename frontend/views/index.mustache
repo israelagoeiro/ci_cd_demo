@@ -3,35 +3,246 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{Titulo}}</title>
+    <title>HRISELINK - Sistema de Gerenciamento de RH</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>{{Titulo}}</h1>
-        </header>
-        
-        <main>
-            <div class="tarefas-container">
-                <h2>Minhas Tarefas</h2>
-                
-                {{#Tarefas}}
-                <div class="tarefa {{#Concluida}}concluida{{/Concluida}}">
-                    <span class="tarefa-titulo">{{Titulo}}</span>
-                    <span class="tarefa-status">{{#Concluida}}Concluída{{/Concluida}}{{^Concluida}}Pendente{{/Concluida}}</span>
+        <!-- Barra Lateral (Sidebar) -->
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="material-icons-outlined">people</span>
+                <h1>HRISELINK</h1>
+            </div>
+            
+            <div class="search-global">
+                <span class="material-icons-outlined">search</span>
+                <input type="text" placeholder="Search...">
+                <span class="keyboard-shortcut">⌘ F</span>
+            </div>
+            
+            <nav class="menu">
+                <ul>
+                    <li class="menu-item active">
+                        <span class="material-icons-outlined">dashboard</span>
+                        <span>Dashboard</span>
+                    </li>
+                    <li class="menu-item">
+                        <span class="material-icons-outlined">person</span>
+                        <span>Funcionários</span>
+                        <span class="material-icons-outlined chevron">expand_more</span>
+                    </li>
+                    <li class="menu-item">
+                        <span class="material-icons-outlined">work</span>
+                        <span>Departamentos</span>
+                    </li>
+                    <li class="menu-item">
+                        <span class="material-icons-outlined">calendar_today</span>
+                        <span>Férias</span>
+                    </li>
+                    <li class="menu-item">
+                        <span class="material-icons-outlined">payments</span>
+                        <span>Folha de Pagamento</span>
+                    </li>
+                    <li class="menu-item">
+                        <span class="material-icons-outlined">assessment</span>
+                        <span>Relatórios</span>
+                    </li>
+                    <li class="menu-item">
+                        <span class="material-icons-outlined">settings</span>
+                        <span>Configurações</span>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="company-avatar">W</div>
+                <div class="company-info">
+                    <div class="company-name">Wishbone</div>
+                    <div class="company-members">61 members</div>
                 </div>
-                {{/Tarefas}}
+            </div>
+        </aside>
+        
+        <!-- Conteúdo Principal -->
+        <main class="content">
+            <!-- Cabeçalho Superior -->
+            <header class="header">
+                <h2 class="section-title">Funcionários</h2>
                 
-                {{^Tarefas}}
-                <p class="sem-tarefas">Nenhuma tarefa encontrada.</p>
-                {{/Tarefas}}
+                <div class="header-actions">
+                    <button class="btn btn-secondary">
+                        <span class="material-icons-outlined">file_download</span>
+                        Exportar CSV
+                    </button>
+                    <button class="btn btn-primary">
+                        <span class="material-icons-outlined">add</span>
+                        Adicionar
+                    </button>
+                </div>
+                
+                <div class="header-icons">
+                    <span class="material-icons-outlined">mail</span>
+                    <span class="material-icons-outlined notification">notifications</span>
+                </div>
+            </header>
+            
+            <!-- Navegação por Abas -->
+            <div class="tabs">
+                <div class="tab active">Todos</div>
+                <div class="tab">Ativos</div>
+                <div class="tab">Onboarding</div>
+                <div class="tab">Inativos</div>
+            </div>
+            
+            <!-- Barra de Funcionalidades -->
+            <div class="function-bar">
+                <div class="search-local">
+                    <span class="material-icons-outlined">search</span>
+                    <input type="text" placeholder="Buscar funcionário...">
+                </div>
+                
+                <div class="view-controls">
+                    <button class="btn-control">
+                        <span class="material-icons-outlined">filter_list</span>
+                        Filtrar
+                    </button>
+                    <button class="btn-control">
+                        <span class="material-icons-outlined">sort</span>
+                        Ordenar
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Cards de Resumo -->
+            <div class="summary-cards">
+                <div class="card">
+                    <div class="card-icon">
+                        <span class="material-icons-outlined">people</span>
+                    </div>
+                    <div class="card-value">
+                        194
+                        <span class="variation positive">↑ 12%</span>
+                    </div>
+                    <div class="card-label">Total de Funcionários</div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-icon">
+                        <span class="material-icons-outlined">person_add</span>
+                    </div>
+                    <div class="card-value">
+                        21
+                        <span class="variation positive">↑ 8%</span>
+                    </div>
+                    <div class="card-label">Novos este mês</div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-icon">
+                        <span class="material-icons-outlined">person_off</span>
+                    </div>
+                    <div class="card-value">
+                        4
+                        <span class="variation negative">↓ 2%</span>
+                    </div>
+                    <div class="card-label">Desligamentos</div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-icon">
+                        <span class="material-icons-outlined">payments</span>
+                    </div>
+                    <div class="card-value">
+                        R$ 342k
+                        <span class="variation positive">↑ 5%</span>
+                    </div>
+                    <div class="card-label">Folha Mensal</div>
+                </div>
+            </div>
+            
+            <!-- Tabela de Funcionários -->
+            <div class="employees-table-container">
+                <table class="employees-table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" class="checkbox">
+                            </th>
+                            <th>ID</th>
+                            <th>Funcionário</th>
+                            <th>Departamento</th>
+                            <th>Cargo</th>
+                            <th>Data de Admissão</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#Funcionarios}}
+                        <tr>
+                            <td>
+                                <input type="checkbox" class="checkbox">
+                            </td>
+                            <td>{{ID}}</td>
+                            <td class="employee-info">
+                                <div class="employee-avatar">{{Iniciais}}</div>
+                                <div class="employee-details">
+                                    <div class="employee-name">{{Nome}}</div>
+                                    <div class="employee-email">{{Email}}</div>
+                                </div>
+                            </td>
+                            <td>{{Departamento}}</td>
+                            <td>{{Cargo}}</td>
+                            <td>{{DataAdmissao}}</td>
+                            <td>
+                                <span class="status-pill {{StatusClasse}}">{{Status}}</span>
+                            </td>
+                            <td>
+                                <span class="material-icons-outlined action-menu">more_vert</span>
+                            </td>
+                        </tr>
+                        {{/Funcionarios}}
+                        
+                        {{^Funcionarios}}
+                        <tr>
+                            <td colspan="8" class="no-data">Nenhum funcionário encontrado.</td>
+                        </tr>
+                        {{/Funcionarios}}
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Paginação -->
+            <div class="pagination">
+                <div class="records-selector">
+                    <span>10 registros</span>
+                    <span class="material-icons-outlined">arrow_drop_down</span>
+                </div>
+                
+                <div class="page-navigator">
+                    <button class="page-btn nav-btn">
+                        <span class="material-icons-outlined">chevron_left</span>
+                    </button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <span class="ellipsis">...</span>
+                    <button class="page-btn">19</button>
+                    <button class="page-btn nav-btn">
+                        <span class="material-icons-outlined">chevron_right</span>
+                    </button>
+                </div>
+                
+                <div class="total-records">
+                    <span>1-10 de 194</span>
+                </div>
             </div>
         </main>
-        
-        <footer>
-            <p>CI/CD Demo - Aplicação Go com Fiber e Mustache</p>
-        </footer>
     </div>
+
+    <script src="/js/app.js"></script>
 </body>
 </html> 
